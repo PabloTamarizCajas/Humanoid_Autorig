@@ -13,13 +13,14 @@ def createJoints():
         locPos = mc.xform(q=True,ws=True,t=True)
         locName = loc.replace('_LOC','')
         mc.joint(n=locName+'_JNT',p=locPos,rad=0.2)
+        
         mc.select(cl=True)
 
     mc.select('*_JNT')
     mc.group(n='Skeleton')
-    mc.select(cl=True)
-    mc.select('*_LOC')
-    mc.delete()
+    #mc.select(cl=True)
+    #mc.select('*_LOC')
+    #mc.delete()
     mc.select(cl=True)
     
     joint_lists = names.jointList()
@@ -45,8 +46,19 @@ def createJoints():
     mc.select(joint_lists[0][0])
     
     mc.select(root_jnt,hi=True)
-    mc.joint(e=True,oj='xzy',secondaryAxisOrient='zup',ch=True,zso=True)
     
 def createChain(jointList):
     for i in range(0,len(jointList)-1):
         mc.parent(jointList[i+1],jointList[i])
+        mc.makeIdentity(jointList[i],apply=True,t=0,r=1,s=1,n=0,pn=1)
+        print(jointList[i])
+        if jointList[i].startswith('L_'):
+            mc.joint(jointList[i],e=True,oj='yzx',secondaryAxisOrient='zup',ch=True,zso=True)
+            print('i am Left joint')
+        elif jointList[i].startswith('R_'):
+            mc.joint(jointList[i],e=True,oj='yzx',secondaryAxisOrient='zdown',ch=True,zso=True)
+            print('i am Right joint')
+        elif jointList[i].startswith('C_'):
+            mc.joint(jointList[i],e=True,oj='yzx',secondaryAxisOrient='zup',ch=True,zso=True)
+            print('i am Center joint')
+        

@@ -45,8 +45,8 @@ def createProxyRig():
     R_clavicle_Loc = createLoc(arm_right[0],(-2,13,0))
     L_upperarm_Loc = createLoc(arm_left[1],(3,13,0))
     R_upperarm_Loc = createLoc(arm_right[1],(-3,13,0))
-    L_lowerarm_Loc = createLoc(arm_left[2],(6.5,13,-1))
-    R_lowerarm_Loc = createLoc(arm_right[2],(-6.5,13,-1))
+    L_lowerarm_Loc = createLoc(arm_left[2],(6.5,13,0))
+    R_lowerarm_Loc = createLoc(arm_right[2],(-6.5,13,0))
     L_hand_Loc = createLoc(arm_left[3],(11,13,0))
     R_hand_Loc = createLoc(arm_right[3],(-11,13,0))
     
@@ -104,25 +104,33 @@ def createProxyRig():
     
     createLineLink('L_thumb01_LOC','L_hand_LOC')
     createLineLink('R_thumb01_LOC','R_hand_LOC')
-    
+    mc.parent('L_thumb01_LOC','L_hand_LOC')
+    mc.parent('R_thumb01_LOC','R_hand_LOC')
     createLineLink('L_index01_LOC','L_hand_LOC')
     createLineLink('R_index01_LOC','R_hand_LOC')
-    
+    mc.parent('L_index01_LOC','L_hand_LOC')
+    mc.parent('R_index01_LOC','R_hand_LOC')
     createLineLink('L_middle01_LOC','L_hand_LOC')
     createLineLink('R_middle01_LOC','R_hand_LOC')
-    
+    mc.parent('L_middle01_LOC','L_hand_LOC')
+    mc.parent('R_middle01_LOC','R_hand_LOC')
     createLineLink('L_ring01_LOC','L_hand_LOC')
     createLineLink('R_ring01_LOC','R_hand_LOC')
-    
+    mc.parent('L_ring01_LOC','L_hand_LOC')
+    mc.parent('R_ring01_LOC','R_hand_LOC')
     createLineLink('L_pinky01_LOC','L_hand_LOC')
     createLineLink('R_pinky01_LOC','R_hand_LOC')
+    mc.parent('L_pinky01_LOC','L_hand_LOC')
+    mc.parent('R_pinky01_LOC','R_hand_LOC')
+    
     mc.group('curve*',n='CURVES')
     
     mc.select(cl=True)
     
 def createMultipleLineLink(list):
     for i in range(0,len(list)-1):
-        createLineLink(list[i],list[i+1])    
+        createLineLink(list[i],list[i+1])
+        mc.parent(list[i+1],list[i])    
     
 def createLoc(locName, pos):
     myLoc = mc.spaceLocator(n=locName)
@@ -138,10 +146,6 @@ def createLoc(locName, pos):
     
     if side == 'C':
         
-        mc.setAttr(myLoc+'.tx',lock=True, keyable=False, channelBox=False)
-        mc.setAttr(myLoc+'.rx',lock=True, keyable=False, channelBox=False)
-        mc.setAttr(myLoc+'.ry',lock=True, keyable=False, channelBox=False)
-        mc.setAttr(myLoc+'.rz',lock=True, keyable=False, channelBox=False)  
         mc.setAttr(myLoc+'.sx',lock=True, keyable=False, channelBox=False)
         mc.setAttr(myLoc+'.sy',lock=True, keyable=False, channelBox=False)
         mc.setAttr(myLoc+'.sz',lock=True, keyable=False, channelBox=False)
@@ -151,19 +155,16 @@ def createLoc(locName, pos):
         
         
     if side == 'L':
-        mc.setAttr(myLoc+'.rx',lock=True, keyable=False, channelBox=False)
-        mc.setAttr(myLoc+'.ry',lock=True, keyable=False, channelBox=False)
-        mc.setAttr(myLoc+'.rz',lock=True, keyable=False, channelBox=False)
+
         mc.setAttr(myLoc+'.sx',lock=True, keyable=False, channelBox=False)
         mc.setAttr(myLoc+'.sy',lock=True, keyable=False, channelBox=False)
         mc.setAttr(myLoc+'.sz',lock=True, keyable=False, channelBox=False)
         mc.setAttr(myLoc+'.v',lock=True, keyable=False, channelBox=False)
         mc.setAttr(myLoc+'.overrideEnabled',1)
         mc.setAttr(myLoc+'.overrideColor',6)
+        
     elif side == 'R':
-        mc.setAttr(myLoc+'.rx',lock=True, keyable=False, channelBox=False)
-        mc.setAttr(myLoc+'.ry',lock=True, keyable=False, channelBox=False)
-        mc.setAttr(myLoc+'.rz',lock=True, keyable=False, channelBox=False)
+
         mc.setAttr(myLoc+'.sx',lock=True, keyable=False, channelBox=False)
         mc.setAttr(myLoc+'.sy',lock=True, keyable=False, channelBox=False)
         mc.setAttr(myLoc+'.sz',lock=True, keyable=False, channelBox=False)
@@ -224,10 +225,17 @@ def mirrorTool(type):
             mc.setAttr(mirrorSide+'.tx',mc.getAttr(obj+'.tx')*-1)
             mc.setAttr(mirrorSide+'.ty',mc.getAttr(obj+'.ty'))
             mc.setAttr(mirrorSide+'.tz',mc.getAttr(obj+'.tz'))
+            mc.setAttr(mirrorSide+'.rx',mc.getAttr(obj+'.rx'))
+            mc.setAttr(mirrorSide+'.ry',mc.getAttr(obj+'.ry')*-1)
+            mc.setAttr(mirrorSide+'.rz',mc.getAttr(obj+'.rz')*-1)
+            
         elif side == 'R':
             mirrorSide = obj.replace('R_','L_')
             mc.setAttr(mirrorSide+'.tx',mc.getAttr(obj+'.tx')*-1)
             mc.setAttr(mirrorSide+'.ty',mc.getAttr(obj+'.ty'))
             mc.setAttr(mirrorSide+'.tz',mc.getAttr(obj+'.tz'))
+            mc.setAttr(mirrorSide+'.rx',mc.getAttr(obj+'.rx'))
+            mc.setAttr(mirrorSide+'.ry',mc.getAttr(obj+'.ry')*-1)
+            mc.setAttr(mirrorSide+'.rz',mc.getAttr(obj+'.rz')*-1)
             
     mc.select(cl=True)
