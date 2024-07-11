@@ -20,6 +20,8 @@ def createProxyRig():
     ring_right = loc_List[12]
     pinky_left = loc_List[13]
     pinky_right = loc_List[14]
+    leg_left_roll = loc_List[15]
+    leg_right_roll = loc_List[16]
     
     C_pelvis_Loc = createLoc(spine[0],(0,10,0))
     #Create Loc Legs
@@ -29,6 +31,12 @@ def createProxyRig():
     R_calf_Loc = createLoc(leg_right[1],(-2,5,0))
     L_foot_Loc = createLoc(leg_left[2],(2,1,0))
     R_foot_Loc = createLoc(leg_right[2],(-2,1,0))
+    L_revCBank_Loc = createLoc(leg_left_roll[0],(1,0,-0.5))
+    R_revCBank_Loc = createLoc(leg_right_roll[0],(-1,0,-0.5))
+    L_revEBank_Loc = createLoc(leg_left_roll[1],(3,0,-0.5))
+    R_revEBank_Loc = createLoc(leg_right_roll[1],(-3,0,-0.5))
+    L_revHeel_Loc = createLoc(leg_left_roll[2],(2,0,-2))
+    R_revHeel_Loc = createLoc(leg_right_roll[2],(-2,0,-2))
     L_toe_Loc = createLoc(leg_left[3],(2,1,1))
     R_toe_Loc = createLoc(leg_right[3],(-2,1,1))
     L_toeEnd_Loc = createLoc(leg_left[4],(2,1,2))

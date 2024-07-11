@@ -36,6 +36,8 @@ def locList():
     ring_right = ['R_ring01_LOC', 'R_ring02_LOC', 'R_ring03_LOC']
     pinky_left = ['L_pinky01_LOC', 'L_pinky02_LOC', 'L_pinky03_LOC']
     pinky_right = ['R_pinky01_LOC', 'R_pinky02_LOC', 'R_pinky03_LOC']
+    leg_left_roll = ['L_RevCBank_LOC', 'L_RevEBank_LOC', 'L_RevHeel_LOC']
+    leg_right_roll = ['R_RevCBank_LOC', 'R_RevEBank_LOC', 'R_RevHeel_LOC']
     
-    return spine, arm_left, arm_right, leg_left, leg_right, thumb_left, thumb_right, index_left, index_right, middle_left, middle_right, ring_left, ring_right, pinky_left, pinky_right    
+    return spine, arm_left, arm_right, leg_left, leg_right, thumb_left, thumb_right, index_left, index_right, middle_left, middle_right, ring_left, ring_right, pinky_left, pinky_right, leg_left_roll, leg_right_roll    
     

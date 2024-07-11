@@ -6,7 +6,7 @@ reload(namejnts)
 from Humanoid_Autorig.build import utils as utils
 reload(utils)
 
-def createFK(type,listJnts):
+def createFK(type,listJnts,r=1):
     
     if listJnts[0].startswith('L_'):
         parentFkGrp = mc.group(n='FK_' + type + '_L_grp',em=True)
@@ -24,14 +24,18 @@ def createFK(type,listJnts):
     #create controls
     for joint in joints_fk:
         name = joint.replace('_JNT','_ctl')
-        ctl = mc.circle(n=name, nr=(1,0,0), c=(0,0,0), r=1)[0]
+        ctl = mc.circle(n=name, nr=(0,1,0), c=(0,0,0), r=r)[0]
+        mc.setAttr(ctl+'.sx',l=True,k=False)
+        mc.setAttr(ctl+'.sy',l=True,k=False)
+        mc.setAttr(ctl+'.sz',l=True,k=False)
+        mc.setAttr(ctl+'.v',k=False,cb=True)
         ctl_fk.append(ctl)
         #position control
         jntPos = mc.xform(joint, q=True, ws=True, t=True)
         #rotate control
         jntRot = mc.xform(joint, q=True, ws=True, ro=True)
         #rotate control 90 degrees
-        jntRot = [jntRot[0],jntRot[1],jntRot[2]+90]
+        jntRot = [jntRot[0],jntRot[1],jntRot[2]]
         mc.xform(ctl, ws=True, t=jntPos,ro=jntRot)
         grp = utils.add_transforms([ctl])
         
@@ -49,7 +53,7 @@ def createFK(type,listJnts):
         
     mc.select(cl=True)
     
-    return joints_fk, ctl_fk
+    return joints_fk, ctl_fk, parentFkGrp
 
 def createChain(jointList,suffix):
     listChain = []
@@ -76,4 +80,3 @@ def createChain(jointList,suffix):
         count += 1
         
     return listChain
-    
